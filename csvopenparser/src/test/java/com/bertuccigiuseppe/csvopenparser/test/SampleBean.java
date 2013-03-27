@@ -15,7 +15,7 @@ public class SampleBean {
 	return A;
     }
 
-    @CsvOpenparserMapping(fieldName="A-FIELD")
+    @CsvOpenparserMapping(fieldName="AFIELD")
     public void setA(String a) {
 	A = a;
     }
@@ -24,7 +24,7 @@ public class SampleBean {
 	return B;
     }
 
-    @CsvOpenparserMapping(fieldName="B-FIELD", fieldEreg = CsvParser.NUMBER)
+    @CsvOpenparserMapping(fieldName="BFIELD", fieldEreg = CsvParser.NUMBER)
     public void setB(String b) {
 	B = b;
     }
@@ -33,7 +33,7 @@ public class SampleBean {
 	return C;
     }
 
-    @CsvOpenparserMapping(fieldName="C-FIELD")
+    @CsvOpenparserMapping(fieldName="CFIELD")
     public void setC(String c) {
 	C = c;
     }
@@ -42,7 +42,7 @@ public class SampleBean {
 	return D;
     }
 
-    @CsvOpenparserMapping(fieldName="D-FIELD")
+    @CsvOpenparserMapping(fieldName="DFIELD")
     public void setD(String d) {
 	D = d;
     }
@@ -51,7 +51,7 @@ public class SampleBean {
 	return E;
     }
 
-    @CsvOpenparserMapping(fieldName="E-FIELD")
+    @CsvOpenparserMapping(fieldName="EFIELD")
     public void setE(String e) {
 	E = e;
     }

@@ -7,9 +7,8 @@ import java.lang.annotation.Target;
 
 /**
  * @author Giuseppe Bertucci <bertuccig@gmail.com>
- * @licence this software was released under the term of GPL (GNU PUBLIC LICENSE) v3
+ * @licence this software was released under the term of GPL (GNU PUBLIC LICENSE) v3. See the LICENSE.txt for further information.
  */
-
 @Target( ElementType.METHOD )
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CsvOpenparserMapping {

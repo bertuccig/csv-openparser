@@ -54,7 +54,7 @@ public class LineMatchingTests implements ICsvAcquisitionListener<SampleBean> {
     @Override
     public void onLineParsed(SampleBean bean) {
 
-	System.out.println(String.format("acquired bean: %s %s", bean.getA(), bean.getB()));
+	System.out.println(String.format("acquired bean: %s - %s - %s - %s - %s", new Object[] { bean.getA(), bean.getB(), bean.getC(), bean.getD(), bean.getE() }));
     }
 
     @Override
