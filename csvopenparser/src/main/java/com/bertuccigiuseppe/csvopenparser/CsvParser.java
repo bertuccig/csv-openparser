@@ -4,12 +4,13 @@
 package com.bertuccigiuseppe.csvopenparser;
 
 import java.io.BufferedReader;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -19,13 +20,11 @@ import java.util.regex.Pattern;
  * @licence this software was released under the term of GPL (GNU PUBLIC
  *          LICENSE) v3. See the gpl-3.0.txt file for further information.
  */
-public class CsvParser<T> {
-
-    // private static final Logger log =
-    // LoggerFactory.getLogger(CsvParser.class);
+// TODO use an internal class for implementing ICsvAcquisitionListener for
+// avoiding improper use
+public class CsvParser<T> implements ICsvAcquisitionListener<T> {
 
     private Map<Integer, String> fieldPositions = new HashMap<>();
-    private static final String AUTO_GROUP_NAME_PREFIX = "FIELD_";
 
     // FIXME improve the constant definition
     public static final String NUMBER = "[0-9]+";
@@ -124,7 +123,7 @@ public class CsvParser<T> {
 
     }
 
-    private T parseRow(String line, Class<T> aClass) throws BadlyFormattedLineException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException {
+    private T parseRow(String line, Class<T> aClass) throws Exception {
 
 	Matcher m = rowPattern.matcher(line);
 	T clientBean = null;
@@ -139,18 +138,24 @@ public class CsvParser<T> {
 		    CsvOpenparserMapping mappingAnnotation = method.getAnnotation(CsvOpenparserMapping.class);
 
 		    String CsvFieldName = "";
-		    
-		    //if is not been setted the field name, we use the field position
-		    if (CsvParser.DEFAULT_FIELD_NAME.equals(mappingAnnotation.fieldName())) {
-			
-			String fieldname = fieldPositions.get(mappingAnnotation.fieldPosition());
-			
-			CsvFieldName = CsvParser.CleanUpFieldName(fieldname);
-		    
-		    } else {
-			// if is not been setted the field position we throw an exception
-			//FIXME check the filed position field
+
+		    // if is not been setted the field name, we use the field
+		    // position
+		    if (!CsvParser.DEFAULT_FIELD_NAME.equals(mappingAnnotation.fieldName())) {
+
 			CsvFieldName = CsvParser.CleanUpFieldName(mappingAnnotation.fieldName());
+
+		    } else {
+			// if is not been setted the field position we throw an
+			// exception
+			if (CsvParser.DEFAULT_FIELD_POSITION != mappingAnnotation.fieldPosition()) {
+			    String fieldname = fieldPositions.get(mappingAnnotation.fieldPosition());
+
+			    CsvFieldName = CsvParser.CleanUpFieldName(fieldname);
+			} else {
+
+			    throw new Exception(String.format("missing fieldName or fieldPosition for the field %s", method.getName()));
+			}
 		    }
 
 		    String val = m.group(CsvFieldName);
@@ -202,5 +207,40 @@ public class CsvParser<T> {
     // FIXME create ereg-group-accepted name for the field
     private static String CleanUpFieldName(String fieldName) {
 	return fieldName;
+    }
+
+    List<T> entries = new ArrayList<>();
+
+    public List<T> parseAll(Path entry, Class<T> aClass) throws LineParserNotAlreadyCompiledException {
+
+	this.parse(entry, this, aClass);
+
+	return entries;
+    }
+
+    @Override
+    public void onLineRead(String line) {
+
+	// TODO log occurrences
+    }
+
+    @Override
+    public void onLineParsed(T bean) {
+
+	// TODO log occurrences
+	entries.add(bean);
+    }
+
+    @Override
+    public void onLineParsingError(String errorLine, String errorDescription) {
+	// TODO log occurrences
+	// TODO create data structure for managing both the lists: ok and error
+	// lines
+    }
+
+    @Override
+    public void onParsingFinished(Path entry) {
+
+	// TODO log occurrences
     }
 }

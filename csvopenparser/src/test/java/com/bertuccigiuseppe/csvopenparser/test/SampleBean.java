@@ -32,7 +32,7 @@ public class SampleBean {
 	return C;
     }
 
-    @CsvOpenparserMapping(fieldPosition=2)
+    @CsvOpenparserMapping(fieldName="CFIELD")
     public void setC(String c) {
 	C = c;
     }
