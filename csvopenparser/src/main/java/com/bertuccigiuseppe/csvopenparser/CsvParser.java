@@ -243,4 +243,9 @@ public class CsvParser<T> implements ICsvAcquisitionListener<T> {
 
 	// TODO log occurrences
     }
+
+    public void setTemplate(String string) {
+
+	this.template = "AFIELD;BFIELD;CFIELD;DFIELD;EFIELD";
+    }
 }

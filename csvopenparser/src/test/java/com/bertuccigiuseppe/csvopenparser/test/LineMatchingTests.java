@@ -83,5 +83,39 @@ public class LineMatchingTests  {
 
     }
 
+    @Test
+    public void exernalTemplateTest() {
 
+	// BE CAREFUL using this approach: with very big csv you can occupy huge memory and OutOfMemory may occur!!!
+	System.out.println("-------------------------------------------");
+	System.out.println("-             EXTERNAL TEMPLATE TEST      -");
+	System.out.println("-------------------------------------------");
+	
+	try {
+
+		URL uri = LineMatchingTests.class.getResource("/CsvOpenparserSampleNoHeader.csv");
+		entry = Paths.get(uri.getPath().substring(1));
+
+		CsvParser<SampleBean> parser2 = new CsvParser<>();
+
+	    parser2.setTemplate("AFIELD;BFIELD;CFIELD;DFIELD;EFIELD");
+	    List<SampleBean> parsedLines = parser2.parseAll(entry, SampleBean.class);
+
+	    for(SampleBean bean : parsedLines)
+	    {
+		System.out.println(String.format("acquired bean: %s - %s - %s - %s - %s", new Object[] { bean.getA(), bean.getB(), bean.getC(), bean.getD(), bean.getE() }));		
+	    }
+	    
+	} catch (LineParserNotAlreadyCompiledException e) {
+
+	    e.printStackTrace();
+
+	    fail("an error occurred: ");
+	} catch (Exception ex) {
+	    ex.printStackTrace();
+
+	    fail("an error occurred: ");
+	}
+
+    }
 }
