@@ -1,15 +1,14 @@
 package com.bertuccigiuseppe.csvopenparser.test;
 
 import com.bertuccigiuseppe.csvopenparser.CsvOpenparserMapping;
-import com.bertuccigiuseppe.csvopenparser.CsvParser;
 
 public class SampleBean {
 
-    private String A;
-    private String B;
-    private String C;
-    private String D;
-    private String E;
+    private String A = new String();
+    private String B = new String();
+    private String C = new String();
+    private String D = new String();
+    private String E = new String();
 
     public String getA() {
 	return A;
@@ -24,7 +23,7 @@ public class SampleBean {
 	return B;
     }
 
-    @CsvOpenparserMapping(fieldName="BFIELD", fieldEreg = CsvParser.NUMBER)
+    @CsvOpenparserMapping(fieldPosition=2)
     public void setB(String b) {
 	B = b;
     }
@@ -33,7 +32,7 @@ public class SampleBean {
 	return C;
     }
 
-    @CsvOpenparserMapping(fieldName="CFIELD")
+    @CsvOpenparserMapping(fieldPosition=2)
     public void setC(String c) {
 	C = c;
     }

@@ -13,8 +13,8 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CsvOpenparserMapping {
 
-    String fieldName() default "CSVOPENPARSER-NOT-SET"; //FIXME create static constant field in CsvParser
-    int fieldPosition() default -1; //FIXME create static constant field in CsvParser
+    String fieldName() default CsvParser.DEFAULT_FIELD_NAME;
+    int fieldPosition() default CsvParser.DEFAULT_FIELD_POSITION; 
     String fieldEreg() default CsvParser.ALPHANUMERIC;
 }
  
